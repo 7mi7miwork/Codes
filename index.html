@@ -1,1358 +1,207 @@
 <!DOCTYPE html>
-
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python & Django Lernen</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-```
-    :root {
-        --bg-primary: #ffffff;
-        --bg-secondary: #f5f5f5;
-        --text-primary: #1a1a1a;
-        --text-secondary: #666666;
-        --accent: #3b82f6;
-        --accent-hover: #2563eb;
-        --border: #e0e0e0;
-        --code-bg: #f8f9fa;
-        --sidebar-width: 280px;
-        --success: #10b981;
-        --warning: #f59e0b;
-        --error: #ef4444;
-    }
-
-    [data-theme="dark"] {
-        --bg-primary: #1a1a1a;
-        --bg-secondary: #2d2d2d;
-        --text-primary: #ffffff;
-        --text-secondary: #a0a0a0;
-        --accent: #60a5fa;
-        --accent-hover: #3b82f6;
-        --border: #404040;
-        --code-bg: #2d2d2d;
-    }
-
-    [data-design="minecraft"] {
-        --bg-primary: #8b7355;
-        --bg-secondary: #6b5844;
-        --text-primary: #ffffff;
-        --text-secondary: #e0e0e0;
-        --accent: #55ff55;
-        --accent-hover: #44dd44;
-        --border: #4a3929;
-        --code-bg: #5a4a38;
-        font-family: 'Courier New', monospace;
-    }
-
-    [data-design="python"] {
-        --bg-primary: #1e3a5f;
-        --bg-secondary: #2c5282;
-        --text-primary: #ffd43b;
-        --text-secondary: #e0e0e0;
-        --accent: #ffd43b;
-        --accent-hover: #ffc107;
-        --border: #4a5568;
-        --code-bg: #2d3748;
-    }
-
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        background: var(--bg-primary);
-        color: var(--text-primary);
-        line-height: 1.6;
-        transition: all 0.3s ease;
-    }
-
-    .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 60px;
-        background: var(--bg-secondary);
-        border-bottom: 2px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 20px;
-        z-index: 100;
-    }
-
-    .logo {
-        font-size: 24px;
-        font-weight: bold;
-        color: var(--accent);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .controls {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-
-    .btn {
-        padding: 8px 16px;
-        background: var(--accent);
-        color: var(--bg-primary);
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: all 0.3s;
-        font-weight: 500;
-    }
-
-    .btn:hover {
-        background: var(--accent-hover);
-        transform: translateY(-2px);
-    }
-
-    .btn-success {
-        background: var(--success);
-    }
-
-    .btn-success:hover {
-        background: #059669;
-    }
-
-    .sidebar {
-        position: fixed;
-        left: 0;
-        top: 60px;
-        width: var(--sidebar-width);
-        height: calc(100vh - 60px);
-        background: var(--bg-secondary);
-        border-right: 2px solid var(--border);
-        overflow-y: auto;
-        padding: 20px;
-        transition: transform 0.3s ease;
-    }
-
-    .sidebar::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    .sidebar::-webkit-scrollbar-track {
-        background: var(--bg-secondary);
-    }
-
-    .sidebar::-webkit-scrollbar-thumb {
-        background: var(--border);
-        border-radius: 4px;
-    }
-
-    .sidebar.hidden {
-        transform: translateX(-100%);
-    }
-
-    .nav-section {
-        margin-bottom: 25px;
-    }
-
-    .nav-section h3 {
-        font-size: 12px;
-        text-transform: uppercase;
-        color: var(--text-secondary);
-        margin-bottom: 10px;
-        letter-spacing: 1px;
-        font-weight: 600;
-    }
-
-    .nav-item {
-        padding: 10px 15px;
-        margin: 5px 0;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: all 0.3s;
-        background: transparent;
-        color: var(--text-primary);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .nav-item:hover {
-        background: var(--bg-primary);
-        transform: translateX(5px);
-    }
-
-    .nav-item.active {
-        background: var(--accent);
-        color: var(--bg-primary);
-        font-weight: 500;
-    }
-
-    .main-content {
-        margin-left: var(--sidebar-width);
-        margin-top: 60px;
-        padding: 40px;
-        min-height: calc(100vh - 60px);
-        transition: margin-left 0.3s ease;
-    }
-
-    .main-content.full {
-        margin-left: 0;
-    }
-
-    .hero {
-        text-align: center;
-        padding: 60px 20px;
-        max-width: 800px;
-        margin: 0 auto;
-    }
-
-    .hero h1 {
-        font-size: 48px;
-        margin-bottom: 20px;
-        color: var(--accent);
-    }
-
-    .hero p {
-        font-size: 20px;
-        color: var(--text-secondary);
-        margin-bottom: 30px;
-    }
-
-    .content-section {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: none;
-    }
-
-    .content-section.active {
-        display: block;
-        animation: fadeIn 0.5s;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .section-title {
-        font-size: 36px;
-        margin-bottom: 20px;
-        color: var(--accent);
-    }
-
-    .importance {
-        background: var(--bg-secondary);
-        padding: 20px;
-        border-radius: 8px;
-        margin: 20px 0;
-        border-left: 4px solid var(--accent);
-    }
-
-    .code-block {
-        background: var(--code-bg);
-        padding: 20px;
-        border-radius: 8px;
-        margin: 20px 0;
-        overflow-x: auto;
-        border: 1px solid var(--border);
-        position: relative;
-    }
-
-    .code-block pre {
-        margin: 0;
-        font-family: 'Courier New', monospace;
-        font-size: 14px;
-        line-height: 1.6;
-    }
-
-    .copy-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        padding: 5px 10px;
-        font-size: 12px;
-        background: var(--accent);
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        opacity: 0.8;
-    }
-
-    .copy-btn:hover {
-        opacity: 1;
-    }
-
-    .code-explanation {
-        background: var(--bg-secondary);
-        padding: 15px;
-        border-radius: 8px;
-        margin: 10px 0;
-        font-size: 14px;
-    }
-
-    .warning {
-        background: #fff3cd;
-        color: #856404;
-        padding: 15px;
-        border-radius: 8px;
-        margin: 20px 0;
-        border-left: 4px solid #ffc107;
-    }
-
-    [data-theme="dark"] .warning {
-        background: #3d3316;
-        color: #ffd43b;
-    }
-
-    .content-card {
-        background: var(--bg-secondary);
-        padding: 25px;
-        border-radius: 10px;
-        margin: 20px 0;
-        border: 1px solid var(--border);
-    }
-
-    .content-card h3 {
-        color: var(--accent);
-        margin-bottom: 15px;
-    }
-
-    select {
-        padding: 8px 12px;
-        background: var(--bg-primary);
-        color: var(--text-primary);
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 14px;
-    }
-
-    .mobile-menu-btn {
-        display: none;
-        background: var(--accent);
-        color: var(--bg-primary);
-        border: none;
-        padding: 10px 15px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 18px;
-    }
-
-    .feature-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-        margin: 40px 0;
-    }
-
-    .feature-card {
-        background: var(--bg-secondary);
-        padding: 30px;
-        border-radius: 10px;
-        text-align: center;
-        transition: transform 0.3s;
-        border: 1px solid var(--border);
-    }
-
-    .feature-card:hover {
-        transform: translateY(-5px);
-    }
-
-    .feature-icon {
-        font-size: 48px;
-        margin-bottom: 15px;
-    }
-
-    /* Minecraft Block Styles */
-    .minecraft-block {
-        background: var(--bg-secondary);
-        border: 3px solid var(--border);
-        border-radius: 8px;
-        padding: 20px;
-        margin: 15px 0;
-        box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
-    }
-
-    [data-design="minecraft"] .minecraft-block {
-        border: 3px solid #4a3929;
-        box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
-        image-rendering: pixelated;
-    }
-
-    .block-category {
-        display: inline-block;
-        padding: 5px 12px;
-        border-radius: 5px;
-        font-size: 12px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        text-transform: uppercase;
-    }
-
-    .block-movement { background: #4ade80; color: #000; }
-    .block-world { background: #f59e0b; color: #000; }
-    .block-agent { background: #60a5fa; color: #000; }
-    .block-logic { background: #a78bfa; color: #fff; }
-
-    .cheatsheet-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 15px;
-        margin: 20px 0;
-    }
-
-    .cheat-item {
-        background: var(--bg-secondary);
-        padding: 15px;
-        border-radius: 8px;
-        border-left: 4px solid var(--accent);
-    }
-
-    .cheat-item code {
-        background: var(--code-bg);
-        padding: 2px 6px;
-        border-radius: 3px;
-        font-family: 'Courier New', monospace;
-    }
-
-    .playground {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        margin: 20px 0;
-    }
-
-    .playground textarea {
-        width: 100%;
-        min-height: 300px;
-        padding: 15px;
-        background: var(--code-bg);
-        color: var(--text-primary);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        font-family: 'Courier New', monospace;
-        font-size: 14px;
-        resize: vertical;
-    }
-
-    .playground-output {
-        background: var(--code-bg);
-        padding: 15px;
-        border-radius: 8px;
-        border: 1px solid var(--border);
-        min-height: 300px;
-        font-family: 'Courier New', monospace;
-        font-size: 14px;
-        overflow-y: auto;
-    }
-
-    .project-card {
-        background: var(--bg-secondary);
-        padding: 25px;
-        border-radius: 10px;
-        margin: 20px 0;
-        border: 1px solid var(--border);
-        transition: transform 0.3s;
-    }
-
-    .project-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .difficulty {
-        display: inline-block;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    .difficulty-easy { background: #10b981; color: white; }
-    .difficulty-medium { background: #f59e0b; color: white; }
-    .difficulty-hard { background: #ef4444; color: white; }
-
-    .tabs {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-        border-bottom: 2px solid var(--border);
-    }
-
-    .tab {
-        padding: 10px 20px;
-        background: transparent;
-        border: none;
-        color: var(--text-secondary);
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 500;
-        border-bottom: 3px solid transparent;
-        transition: all 0.3s;
-    }
-
-    .tab.active {
-        color: var(--accent);
-        border-bottom-color: var(--accent);
-    }
-
-    .tab:hover {
-        color: var(--accent);
-    }
-
-    .tab-content {
-        display: none;
-    }
-
-    .tab-content.active {
-        display: block;
-        animation: fadeIn 0.3s;
-    }
-
-    .comparison-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-    }
-
-    .comparison-table th,
-    .comparison-table td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .comparison-table th {
-        background: var(--bg-secondary);
-        font-weight: 600;
-    }
-
-    .comparison-table tr:hover {
-        background: var(--bg-secondary);
-    }
-
-    .minecraft-visual {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin: 15px 0;
-        padding: 15px;
-        background: var(--bg-secondary);
-        border-radius: 8px;
-    }
-
-    .minecraft-icon {
-        font-size: 48px;
-        min-width: 60px;
-        text-align: center;
-    }
-
-    @media (max-width: 768px) {
-        .sidebar {
-            transform: translateX(-100%);
-        }
-
-        .sidebar.show {
-            transform: translateX(0);
-        }
-
-        .main-content {
-            margin-left: 0;
-            padding: 20px;
-        }
-
-        .mobile-menu-btn {
-            display: block;
-        }
-
-        .hero h1 {
-            font-size: 32px;
-        }
-
-        .playground {
-            grid-template-columns: 1fr;
-        }
-
-        .cheatsheet-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    [data-design="minecraft"] .btn,
-    [data-design="minecraft"] .nav-item,
-    [data-design="minecraft"] .code-block {
-        border: 2px solid #4a3929;
-        box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python & Django Lernen</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --border: #e0e0e0;
+    --code-bg: #f8f9fa;
+    --sidebar-width: 280px;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+}
+
+/* ===== THEMES ===== */
+[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --border: #404040;
+    --code-bg: #2d2d2d;
+}
+
+/* ===== DESIGNS ===== */
+[data-design="modern"] {}
+
+[data-design="minecraft"] {
+    --bg-primary: #8b7355;
+    --bg-secondary: #6b5844;
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
+    --accent: #55ff55;
+    --accent-hover: #44dd44;
+    --border: #4a3929;
+    --code-bg: #5a4a38;
+    font-family: "Courier New", monospace;
+}
+
+[data-design="python"] {
+    --bg-primary: #1e3a5f;
+    --bg-secondary: #2c5282;
+    --text-primary: #ffd43b;
+    --text-secondary: #e0e0e0;
+    --accent: #ffd43b;
+    --accent-hover: #ffc107;
+    --border: #4a5568;
+    --code-bg: #2d3748;
+}
+
+/* ===== BASE ===== */
+body {
+    font-family: system-ui, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: 0.3s;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    background: var(--bg-secondary);
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--accent);
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+}
+
+select, button {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+}
+
+.btn {
+    background: var(--accent);
+    color: var(--bg-primary);
+    border: none;
+}
+
+.sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: var(--sidebar-width);
+    height: calc(100vh - 60px);
+    background: var(--bg-secondary);
+    border-right: 2px solid var(--border);
+    padding: 20px;
+}
+
+.nav-item {
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    background: var(--bg-primary);
+}
+
+.main-content {
+    margin-left: var(--sidebar-width);
+    margin-top: 60px;
+    padding: 40px;
+}
+
+.section-title {
+    font-size: 32px;
+    color: var(--accent);
+}
+
+.code-block {
+    background: var(--code-bg);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    border: 1px solid var(--border);
+}
+
+pre {
+    margin: 0;
+    overflow-x: auto;
+}
 </style>
-```
-
 </head>
+
 <body data-theme="light" data-design="modern">
-    <header class="header">
-        <div class="logo">
-            <span id="logo-icon">🐍</span>
-            <span id="app-title">Python Lernen</span>
-        </div>
-        <div class="controls">
-            <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
-            <select id="lang-select" onchange="changeLanguage(this.value)">
-                <option value="de">Deutsch</option>
-                <option value="en">English</option>
-                <option value="zh">中文</option>
-                <option value="es">Español</option>
-                <option value="fr">Français</option>
-            </select>
-            <select id="design-select" onchange="changeDesign(this.value)">
-                <option value="modern">Modern</option>
-                <option value="minecraft">Minecraft</option>
-                <option value="python">Python Style</option>
-            </select>
-            <button class="btn" onclick="toggleTheme()" id="theme-btn">🌙</button>
-        </div>
-    </header>
 
-```
-<aside class="sidebar" id="sidebar">
-    <nav>
-        <div class="nav-section">
-            <h3>Basics</h3>
-            <div class="nav-item active" onclick="showSection('home')">🏠 Start</div>
-            <div class="nav-item" onclick="showSection('variables')">📦 Variablen</div>
-            <div class="nav-item" onclick="showSection('datatypes')">🔤 Datentypen</div>
-            <div class="nav-item" onclick="showSection('conditions')">🔀 If/Else</div>
-            <div class="nav-item" onclick="showSection('loops')">🔁 Schleifen</div>
-            <div class="nav-item" onclick="showSection('functions')">⚙️ Funktionen</div>
-        </div>
+<header class="header">
+    <div class="logo">🐍 Python Lernen</div>
+    <div class="controls">
+        <select onchange="changeDesign(this.value)">
+            <option value="modern">Modern</option>
+            <option value="minecraft">Minecraft</option>
+            <option value="python">Python</option>
+        </select>
+        <button class="btn" onclick="toggleTheme()">🌙</button>
+    </div>
+</header>
 
-        <div class="nav-section">
-            <h3>Advanced</h3>
-            <div class="nav-item" onclick="showSection('oop')">🏗️ OOP & Klassen</div>
-            <div class="nav-item" onclick="showSection('decorators')">✨ Decorators</div>
-            <div class="nav-item" onclick="showSection('async')">⚡ Async/Await</div>
-        </div>
-
-        <div class="nav-section">
-            <h3>Web Development</h3>
-            <div class="nav-item" onclick="showSection('django')">🎸 Django</div>
-            <div class="nav-item" onclick="showSection('flask')">🌶️ Flask</div>
-            <div class="nav-item" onclick="showSection('apis')">🔌 APIs</div>
-            <div class="nav-item" onclick="showSection('databases')">🗄️ Datenbanken</div>
-        </div>
-
-        <div class="nav-section">
-            <h3>🎮 Minecraft Education</h3>
-            <div class="nav-item" onclick="showSection('minecraft-intro')">⛏️ Einführung</div>
-            <div class="nav-item" onclick="showSection('minecraft-blocks')">🧱 Blöcke & Code</div>
-            <div class="nav-item" onclick="showSection('minecraft-projects')">🏗️ Projekte</div>
-        </div>
-
-        <div class="nav-section">
-            <h3>Extras</h3>
-            <div class="nav-item" onclick="showSection('cheatsheet')">📋 Cheatsheet</div>
-            <div class="nav-item" onclick="showSection('playground')">💻 Code Playground</div>
-            <div class="nav-item" onclick="showSection('projects')">🚀 Projekt-Ideen</div>
-            <div class="nav-item" onclick="showSection('errors')">⚠️ Häufige Fehler</div>
-        </div>
-    </nav>
+<aside class="sidebar">
+    <div class="nav-item">🏠 Start</div>
+    <div class="nav-item">📦 Variablen</div>
+    <div class="nav-item">🎮 Minecraft</div>
 </aside>
 
-<main class="main-content" id="main-content">
-    <!-- Home Section -->
-    <section class="content-section active" id="home">
-        <div class="hero">
-            <h1>Willkommen bei Python!</h1>
-            <p>Lerne Python, Django, Web-Entwicklung und Minecraft Education – einfach und verständlich erklärt.</p>
-            <button class="btn" onclick="showSection('variables')">Jetzt lernen</button>
-        </div>
+<main class="main-content">
+    <h1 class="section-title">Willkommen bei Python</h1>
 
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h3>Für Anfänger</h3>
-                <p>Keine Vorkenntnisse nötig. Wir starten bei Null.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">💻</div>
-                <h3>Praktische Beispiele</h3>
-                <p>Lerne mit echtem Code, Schritt für Schritt erklärt.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎮</div>
-                <h3>Minecraft Education</h3>
-                <p>Programmieren lernen mit Minecraft - spielend & kreativ!</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🚀</div>
-                <h3>Modern & Aktuell</h3>
-                <p>Die neuesten Best Practices und Technologien.</p>
-            </div>
-        </div>
+    <p>Python lernen – modern, verständlich und spielerisch.</p>
 
-        <div class="content-card">
-            <h3>Was ist Python?</h3>
-            <p>Python ist eine einfache, leistungsstarke Programmiersprache. Mit Python kannst du Webseiten, Apps, Spiele, Datenanalysen und vieles mehr erstellen. Python wird von YouTube, Instagram, Netflix und Tausenden anderen Unternehmen verwendet.</p>
-        </div>
-    </section>
-
-    <!-- Variables Section -->
-    <section class="content-section" id="variables">
-        <h1 class="section-title">Variablen</h1>
-        
-        <p>Eine Variable ist wie eine Schublade, in der du Daten speichern kannst. Du gibst der Schublade einen Namen und legst etwas hinein.</p>
-
-        <div class="importance">
-            <strong>🧠 Warum ist das wichtig?</strong>
-            <p>Variablen sind die Grundlage jeder Programmierung. Ohne sie könntest du keine Daten speichern oder verarbeiten.</p>
-        </div>
-
-        <div class="code-block">
-            <button class="copy-btn" onclick="copyCode(this)">📋 Kopieren</button>
-            <pre><code># Variable erstellen
-```
-
-name = “Anna”
+    <div class="code-block">
+        <pre><code># Variable definieren
+name = "Anna"
 alter = 25
-ist_student = True
 
-# Variable ausgeben
-
-print(name)  # Ausgabe: Anna
-print(alter)  # Ausgabe: 25</code></pre>
-</div>
-
-```
-        <div class="code-explanation">
-            <strong>Zeile für Zeile erklärt:</strong>
-            <ul>
-                <li><strong>Zeile 1:</strong> Kommentare beginnen mit # und werden ignoriert</li>
-                <li><strong>Zeile 2:</strong> Erstellt Variable "name" mit Wert "Anna"</li>
-                <li><strong>Zeile 3:</strong> Erstellt Variable "alter" mit Zahl 25</li>
-                <li><strong>Zeile 4:</strong> Boolean-Variable (True/False)</li>
-                <li><strong>Zeile 7:</strong> print() gibt Werte aus</li>
-            </ul>
-        </div>
-
-        <div class="warning">
-            <strong>⚠️ Typische Fehler:</strong>
-            <ul>
-                <li>Variablennamen mit Zahlen beginnen: <code>1name = "Max"</code> ❌</li>
-                <li>Leerzeichen in Namen: <code>mein name = "Max"</code> ❌</li>
-                <li>Text ohne Anführungszeichen: <code>name = Max</code> ❌</li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- Minecraft Introduction -->
-    <section class="content-section" id="minecraft-intro">
-        <h1 class="section-title">⛏️ Minecraft Education Edition</h1>
-        
-        <div class="minecraft-visual">
-            <div class="minecraft-icon">🎮</div>
-            <div>
-                <h2>Programmieren lernen mit Minecraft!</h2>
-                <p>Mit Minecraft Education kannst du Python und visuelle Programmierung direkt in der Minecraft-Welt lernen.</p>
-            </div>
-        </div>
-
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🧱</div>
-                <h3>MakeCode Blöcke</h3>
-                <p>Visuelles Programmieren mit Drag & Drop</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🐍</div>
-                <h3>Python Code</h3>
-                <p>Echtes Python direkt in Minecraft</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3>Agent Control</h3>
-                <p>Steuere deinen Minecraft-Agent</p>
-            </div>
-        </div>
-
-        <div class="content-card">
-            <h3>📥 Was brauchst du?</h3>
-            <ul style="line-height: 2;">
-                <li><strong>Minecraft Education Edition</strong> - Kostenlose Testversion verfügbar</li>
-                <li><strong>Code Connection</strong> - Verbindet Python mit Minecraft</li>
-                <li><strong>MakeCode for Minecraft</strong> - Online Editor</li>
-            </ul>
-        </div>
-
-        <div class="content-card">
-            <h3>🚀 Schnellstart</h3>
-            <ol style="line-height: 2;">
-                <li>Minecraft Education starten</li>
-                <li>Neue Welt erstellen (Creative Mode)</li>
-                <li>Code Builder öffnen (Taste: C)</li>
-                <li>MakeCode oder Python wählen</li>
-                <li>Los programmieren!</li>
-            </ol>
-        </div>
-    </section>
-
-    <!-- Minecraft Blocks & Code -->
-    <section class="content-section" id="minecraft-blocks">
-        <h1 class="section-title">🧱 MakeCode Blöcke & Python</h1>
-        
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('blocks-tab', this)">🧱 Blöcke</button>
-            <button class="tab" onclick="switchTab('python-tab', this)">🐍 Python</button>
-            <button class="tab" onclick="switchTab('comparison-tab', this)">⚖️ Vergleich</button>
-        </div>
-
-        <div id="blocks-tab" class="tab-content active">
-            <h2>Visual Blocks (MakeCode)</h2>
-            
-            <div class="minecraft-block">
-                <span class="block-category block-movement">Bewegung</span>
-                <h3>🏃 Agent bewegen</h3>
-                <div class="code-block">
-                    <pre>┌─────────────────────────────────┐
-```
-
-│ agent move forward by [1]       │
-└─────────────────────────────────┘
-
-┌─────────────────────────────────┐
-│ agent turn left                 │
-└─────────────────────────────────┘
-
-┌─────────────────────────────────┐
-│ agent move up by [3]            │
-└─────────────────────────────────┘</pre>
-</div>
-<p><strong>Was macht das?</strong> Der Agent bewegt sich 1 Block vorwärts, dreht sich nach links und bewegt sich 3 Blöcke nach oben.</p>
-</div>
-
-```
-            <div class="minecraft-block">
-                <span class="block-category block-world">Welt</span>
-                <h3>🏗️ Blöcke platzieren</h3>
-                <div class="code-block">
-                    <pre>┌─────────────────────────────────┐
-```
-
-│ agent place on move [true]      │
-└─────────────────────────────────┘
-
-┌─────────────────────────────────┐
-│ blocks.place(GRASS, pos(0,0,0)) │
-└─────────────────────────────────┘
-
-┌─────────────────────────────────┐
-│ blocks.fill(STONE,              │
-│   pos(0,0,0), pos(10,10,10))    │
-└─────────────────────────────────┘</pre>
-</div>
-<p><strong>Was macht das?</strong> Der Agent legt beim Gehen Blöcke ab, platziert Gras an Position (0,0,0) und füllt einen Bereich mit Stein.</p>
-</div>
-
-```
-            <div class="minecraft-block">
-                <span class="block-category block-agent">Agent</span>
-                <h3>🤖 Agent Aktionen</h3>
-                <div class="code-block">
-                    <pre>┌─────────────────────────────────┐
-```
-
-│ agent destroy forward           │
-└─────────────────────────────────┘
-
-┌─────────────────────────────────┐
-│ agent collect all               │
-└─────────────────────────────────┘
-
-┌─────────────────────────────────┐
-│ agent teleport to player        │
-└─────────────────────────────────┘</pre>
-</div>
-<p><strong>Was macht das?</strong> Der Agent zerstört Blöcke vor sich, sammelt alle Items ein und teleportiert sich zum Spieler.</p>
-</div>
-
-```
-            <div class="minecraft-block">
-                <span class="block-category block-logic">Logik</span>
-                <h3>🔁 Schleifen & Bedingungen</h3>
-                <div class="code-block">
-                    <pre>┌─────────────────────────────────┐
-```
-
-│ repeat [4] times                │
-│   ┌─────────────────────────┐   │
-│   │ agent move forward by 1 │   │
-│   │ agent turn right        │   │
-│   └─────────────────────────┘   │
-└─────────────────────────────────┘
-
-┌─────────────────────────────────┐
-│ if [agent detect forward] then  │
-│   ┌─────────────────────────┐   │
-│   │ agent destroy forward   │   │
-│   └─────────────────────────┘   │
-└─────────────────────────────────┘</pre>
-</div>
-<p><strong>Was macht das?</strong> Wiederholt Bewegungen 4 mal (Quadrat) und zerstört Blöcke, wenn welche erkannt werden.</p>
-</div>
-</div>
-
-```
-        <div id="python-tab" class="tab-content">
-            <h2>Python Code in Minecraft</h2>
-            
-            <div class="minecraft-block">
-                <span class="block-category block-movement">Bewegung</span>
-                <h3>🏃 Agent Python Code</h3>
-                <div class="code-block">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Kopieren</button>
-                    <pre><code># Agent bewegen
-```
-
-agent.move(FORWARD, 5)
-agent.move(UP, 3)
-agent.turn(LEFT_TURN)
-
-# Agent teleportieren
-
-agent.teleport_to_player()
-
-# Position setzen
-
-agent.set_position(pos(0, 0, 0))</code></pre>
-</div>
-</div>
-
-```
-            <div class="minecraft-block">
-                <span class="block-category block-world">Welt</span>
-                <h3>🏗️ Blöcke mit Python</h3>
-                <div class="code-block">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Kopieren</button>
-                    <pre><code># Einzelnen Block platzieren
-```
-
-blocks.place(GRASS, pos(0, 0, 0))
-
-# Bereich füllen
-
-blocks.fill(
-STONE,
-pos(0, 0, 0),
-pos(10, 5, 10)
-)
-
-# Block klonen
-
-blocks.clone(
-pos(0, 0, 0),
-pos(5, 5, 5),
-pos(20, 0, 20)
-)
-
-# Haus bauen (Beispiel)
-
-def baue_haus(x, y, z):
-# Boden
-blocks.fill(PLANKS_OAK,
-pos(x, y, z),
-pos(x+5, y, z+5))
-
-```
-# Wände
-blocks.fill(PLANKS_OAK,
-    pos(x, y+1, z),
-    pos(x+5, y+3, z+5))
-
-# Innenraum aushöhlen
-blocks.fill(AIR,
-    pos(x+1, y+1, z+1),
-    pos(x+4, y+2, z+4))
-
-# Tür
-blocks.place(AIR, pos(x+2, y+1, z))
-blocks.place(AIR, pos(x+2, y+2, z))
-```
-
-# Haus bauen
-
-baue_haus(0, 0, 0)</code></pre>
-</div>
-</div>
-
-```
-            <div class="minecraft-block">
-                <span class="block-category block-logic">Logik</span>
-                <h3>🔁 Schleifen in Python</h3>
-                <div class="code-block">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Kopieren</button>
-                    <pre><code># Quadrat bauen
-```
-
-def quadrat(größe):
-for i in range(4):
-agent.move(FORWARD, größe)
-agent.turn(RIGHT_TURN)
-
-quadrat(5)
-
-# Treppe bauen
-
-def baue_treppe(stufen):
-for i in range(stufen):
-blocks.place(STONE,
-pos(i, i, 0))
-agent.move(FORWARD, 1)
-agent.move(UP, 1)
-
-baue_treppe(10)
-
-# Pyramide bauen
-
-def pyramide(höhe):
-for y in range(höhe):
-größe = höhe - y
-blocks.fill(
-GOLD_BLOCK,
-pos(-größe, y, -größe),
-pos(größe, y, größe)
-)
-
-pyramide(10)</code></pre>
-</div>
-</div>
-
-```
-            <div class="minecraft-block">
-                <span class="block-category block-agent">Agent</span>
-                <h3>🤖 Fortgeschritten</h3>
-                <div class="code-block">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Kopieren</button>
-                    <pre><code># Agent inspizieren
-```
-
-def sammle_ressourcen():
-while agent.detect(FORWARD):
-block = agent.inspect(FORWARD)
-if block == DIAMOND_ORE:
-agent.destroy(FORWARD)
-agent.collect_all()
-agent.move(FORWARD, 1)
-
-# Intelligenter Tunnel
-
-def grabe_tunnel(länge):
-for i in range(länge):
-# Freien Weg schaffen
-agent.destroy(FORWARD)
-agent.destroy(UP)
-
-```
-    # Fackeln alle 5 Blöcke
-    if i % 5 == 0:
-        agent.place(TORCH, BACK)
-    
-    agent.move(FORWARD, 1)
-```
-
-# Automatischer Farmer
-
-def pflanze_feld(breite, länge):
-for x in range(breite):
-for z in range(länge):
-agent.till(DOWN)
-agent.place(WHEAT_SEEDS, DOWN)
-agent.move(FORWARD, 1)
-agent.turn(RIGHT_TURN)
-agent.move(FORWARD, 1)
-agent.turn(RIGHT_TURN)</code></pre>
-</div>
-</div>
-</div>
-
-```
-        <div id="comparison-tab" class="tab-content">
-            <h2>⚖️ Blöcke vs Python</h2>
-            
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Aufgabe</th>
-                        <th>MakeCode Blöcke</th>
-                        <th>Python Code</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Agent vorwärts</strong></td>
-                        <td><code>agent move forward by 5</code></td>
-                        <td><code>agent.move(FORWARD, 5)</code></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Block platzieren</strong></td>
-                        <td><code>blocks place GRASS at (0,0,0)</code></td>
-                        <td><code>blocks.place(GRASS, pos(0,0,0))</code></td>
-                    </tr>
-                    <tr>
-                        <td><strong>4x wiederholen</strong></td>
-                        <td><code>repeat 4 times { ... }</code></td>
-                        <td><code>for i in range(4): ...</code></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Wenn-Dann</strong></td>
-                        <td><code>if [condition] then { ... }</code></td>
-                        <td><code>if condition: ...</code></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Chat-Event</strong></td>
-                        <td><code>on chat command "hi"</code></td>
-                        <td><code>player.on_chat("hi", func)</code></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="content-card">
-                <h3>💡 Wann was verwenden?</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
-                    <div>
-                        <h4>🧱 MakeCode Blöcke</h4>
-                        <ul>
-                            <li>✅ Perfekt für Anfänger</li>
-                            <li>✅ Visuelles Lernen</li>
-                            <li>✅ Keine Syntax-Fehler</li>
-                            <li>✅ Schneller Einstieg</li>
-                            <li>⚠️ Weniger flexibel</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4>🐍 Python Code</h4>
-                        <ul>
-                            <li>✅ Mehr Kontrolle</li>
-                            <li>✅ Komplexe Projekte</li>
-                            <li>✅ Echtes Programmieren</li>
-                            <li>✅ Wiederverwendbare Funktionen</li>
-                            <li>⚠️ Syntax beachten</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Minecraft Projects -->
-    <section class="content-section" id="minecraft-projects">
-        <h1 class="section-title">🏗️ Minecraft Projekte</h1>
-        
-        <div class="project-card">
-            <span class="difficulty difficulty-easy">Einfach</span>
-            <h3>🏠 Automatisches Haus</h3>
-            <p>Baue ein Programm, das automatisch ein Haus mit Tür und Fenstern erstellt.</p>
-            <div class="code-block">
-                <button class="copy-btn" onclick="copyCode(this)">📋 Kopieren</button>
-                <pre><code>def baue_haus(x, y, z, breite, höhe, tiefe):
-# Fundament
-blocks.fill(STONE, 
-    pos(x, y-1, z), 
-    pos(x+breite, y-1, z+tiefe))
-
-# Wände
-blocks.fill(PLANKS_OAK,
-    pos(x, y, z),
-    pos(x+breite, y+höhe, z+tiefe))
-
-# Innenraum
-blocks.fill(AIR,
-    pos(x+1, y, z+1),
-    pos(x+breite-1, y+höhe-1, z+tiefe-1))
-
-# Dach
-for i in range(breite//2 + 1):
-    blocks.fill(PLANKS_SPRUCE,
-        pos(x+i, y+höhe+i, z),
-        pos(x+breite-i, y+höhe+i, z+tiefe))
-
-# Tür
-blocks.place(AIR, pos(x+breite//2, y, z))
-blocks.place(AIR, pos(x+breite//2, y+1, z))
-
-# Fenster
-blocks.place(GLASS, pos(x+1, y+1, z))
-blocks.place(GLASS, pos(x+breite-1, y+1, z))
-```
-
-# Haus bauen!
-
-baue_haus(0, 0, 0, 8, 4, 8)</code></pre>
-</div>
-<p><strong>🎯 Lernziele:</strong> Funktionen, Parameter, Koordinaten, Blöcke platzieren</p>
-</div>
-
-```
-        <div class="project-card">
-            <span class="difficulty difficulty-medium">Mittel</span>
-            <h3>🌳 Automatischer Holzfäller</h3>
-            <p>Agent erkennt Bäume und fällt sie automatisch.</p>
-            <div class="code-block">
-                <button class="copy-btn" onclick="copyCode(this)">📋 Kopieren</button>
-                <pre><code>def fälle_baum():
-# Prüfe ob Baum vor Agent
-if agent.inspect(FORWARD) == LOG_OAK:
-    höhe = 0
-    
-    # Nach oben bis Baum endet
-    while agent.inspect(UP) == LOG_OAK or agent.inspect(UP) == LEAVES_OAK:
-        agent.destroy(UP)
-        agent.move(UP, 1)
-        höhe += 1
-        
-        # Blätter um Agent entfernen
-        for richtung in [FORWARD, BACK, LEFT, RIGHT]:
-            if agent.inspect(richtung) == LEAVES_OAK:
-                agent.destroy(richtung)
-    
-    # Zurück zum Boden
-    agent.move(DOWN, höhe)
-    agent.collect_all()
-    return True
-return False
-```
-
-def suche_bäume(bereich):
-for x in range(bereich):
-for z in range(bereich):
-fälle_baum()
-agent.move(FORWARD, 1)
-agent.turn(RIGHT_TURN)
-agent.move(FORWARD, 1)
-agent.turn(RIGHT_TURN)
-
-# Starte Holzfäller
-
-suche_bäume(10)</code></pre>
-</div>
-<p><strong>🎯 Lernziele:</strong> While-Schleifen, Bedingungen, Agent-Inspektion, Verschachtelte Schleifen</p>
-</div>
-
-```
-        <div class="project-card">
-            <span class="difficulty difficulty-hard">Schwer</span>
-            <h3>🏰 Burg-Generator</h3>
-            <p>Generiere eine komplette Burg mit Türmen, Mauern und Tor.</p>
-            <div class="code-block">
-                <button class="copy-btn" onclick="copyCode(this)">📋 Kopieren</button>
-                <pre><code>def baue_turm(x, y, z, höhe, radius):
-# Turm-Basis
-for h in range(höhe):
-    for dx in range(-radius, radius+1):
-        for dz in range(-radius, radius+1):
-            if dx*dx + dz*dz <= radius*radius:
-                blocks.place(STONE_BRICKS,
-                    pos(x+dx, y+h, z+dz))
-
-# Zinnen oben
-for dx in range(-radius-1, radius+2):
-    for dz in range(-radius-1, radius+2):
-        if abs(dx) == radius+1 or abs(dz) == radius+1:
-            if (dx + dz) % 2 == 0:
-                blocks.place(STONE_BRICKS,
-                    pos(x+dx, y+höhe, z+dz))
-```
-
-def baue_mauer(start_x, start_z, end_x, end_z, höhe):
-blocks.fill(STONE_BRICKS,
-pos(start_x, 0, start_z),
-pos(end_x, höhe, end_z))
-
-def baue_burg(x, y, z, größe):
-# Hauptturm
-baue_turm(x, y, z, 15, 4)
-
-```
-# Ecktürme
-baue_turm(x-größe, y, z-größe, 12, 3)
-baue_turm(x+größe, y, z-größe, 12, 3)
-baue_turm(x-größe, y, z+größe, 12, 3)
-baue_turm(x+größe, y, z+größe, 12, 3)
-
-# Mauern
-baue_mauer(x-größe, z-größe, x+größe, z-größe, 8)
-baue_mauer(x-größe, z+größe, x+größe, z+größe, 8)
-baue_mauer(x-größe, z-größe, x-größe, z+größe, 8)
-baue_mauer(x+größe, z-größe, x+größe, z+größe, 8)
-
-# Tor
-blocks.fill(AIR,
-    pos(x-2, y, z-größe),
-    pos(x+2, y+3, z-größe))
-```
-
-# Burg bauen!
-
-baue_burg(0, 4, 0, 20)</code></pre>
-</div>
-<p><strong>🎯 Lernziele:</strong> Funktionen mit Parametern, Mathematik, Komplexe Strukturen, Code-Organisation</p>
-</div>
-
-```
-        <div class="project-card">
-            <span class="difficulty difficulty-medium">Mittel</span>
-            <h3>🎨 Pixel Art Generator</h3>
-            <p>Erstelle Pixel Art aus Text-Vorlagen.</p>
-            <div class="code-block">
-                <button class="copy-btn" onclick="copyCode(this)">📋 Kopieren</button>
-                <pre><code># Pixel Art Muster (X = Block, . = Luft)
-```
-
-HERZ = [
-“.XX.XX.”,
-“XXXXXXX”,
-“XXXXXXX”,
-“.XXXXX.”,
-“..XXX..”,
-“…X…”
-]
-
-SMILEY = [
-“.XXXXX.”,
-“X…..X”,
-“X.X.X.X”,
-“X…..X”,
-“X.XXX.X”,
-“X…..X”,
-“.XXXXX.”
-]
-
-def zeichne_pixel_art(muster, block_typ, x, y, z):
-for zeile_idx, zeile in enumerate(muster):
-for spalte_idx, zeichen in enumerate(zeile):
-if zeichen == ‘X’:
-blocks.place(block_typ,
-pos(x + spalte_idx,
-y + (len(muster) - zeile_idx),
-z))
-
-# Zeichne Herz aus roten Blöcken
-
-zeichne_pixel_art(HERZ, WOOL_RED, 0, 5, 0)
-
-# Zeichne Smiley aus gelben Blöcken
-
-zeichne_pixel_art(SMILEY, WOOL_YELLOW, 10, 5, 0)</code></pre>
-</div>
-<p><strong>🎯 Lernziele:</strong> Listen, verschachtelte Schleifen, String-Verarbeitung</p>
-</div>
-</section>
-
-```
-    <!-- Cheatsheet -->
-```
+print(name)
+print(alter)</code></pre>
+    </div>
+</main>
+
+<script>
+function changeDesign(design) {
+    document.body.setAttribute("data-design", design);
+}
+
+function toggleTheme() {
+    const current = document.body.getAttribute("data-theme");
+    document.body.setAttribute("data-theme", current === "dark" ? "light" : "dark");
+}
+</script>
+
+</body>
+</html>
