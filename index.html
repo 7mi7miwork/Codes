@@ -1,207 +1,705 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Python & Django Lernen</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Learning Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --bg: #ffffff;
+            --surface: #f3f4f6;
+            --text: #1f2937;
+            --text-secondary: #6b7280;
+            --border: #e5e7eb;
+            --code-bg: #1e1e1e;
+            --accent: #3b82f6;
+        }
 
-:root {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f5f5f5;
-    --text-primary: #1a1a1a;
-    --text-secondary: #666666;
-    --accent: #3b82f6;
-    --accent-hover: #2563eb;
-    --border: #e0e0e0;
-    --code-bg: #f8f9fa;
-    --sidebar-width: 280px;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --error: #ef4444;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
 
-/* ===== THEMES ===== */
-[data-theme="dark"] {
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #2d2d2d;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
-    --border: #404040;
-    --code-bg: #2d2d2d;
-}
+        /* Theme Styles */
+        body.theme-modern {
+            --primary: #8b5cf6;
+            --secondary: #7c3aed;
+            --accent: #a78bfa;
+        }
 
-/* ===== DESIGNS ===== */
-[data-design="modern"] {}
+        body.theme-minecraft {
+            --primary: #8b4513;
+            --secondary: #654321;
+            --bg: #d4c5a0;
+            --surface: #c4b5a0;
+            --text: #2d2d2d;
+            --border: #8b7355;
+            --accent: #5cb85c;
+            font-family: 'Courier New', monospace;
+        }
 
-[data-design="minecraft"] {
-    --bg-primary: #8b7355;
-    --bg-secondary: #6b5844;
-    --text-primary: #ffffff;
-    --text-secondary: #e0e0e0;
-    --accent: #55ff55;
-    --accent-hover: #44dd44;
-    --border: #4a3929;
-    --code-bg: #5a4a38;
-    font-family: "Courier New", monospace;
-}
+        body.theme-minecraft::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(139, 69, 19, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 69, 19, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+            z-index: -1;
+        }
 
-[data-design="python"] {
-    --bg-primary: #1e3a5f;
-    --bg-secondary: #2c5282;
-    --text-primary: #ffd43b;
-    --text-secondary: #e0e0e0;
-    --accent: #ffd43b;
-    --accent-hover: #ffc107;
-    --border: #4a5568;
-    --code-bg: #2d3748;
-}
+        /* Header */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-/* ===== BASE ===== */
-body {
-    font-family: system-ui, sans-serif;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    line-height: 1.6;
-    transition: 0.3s;
-}
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
 
-.header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 60px;
-    background: var(--bg-secondary);
-    border-bottom: 2px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 100;
-}
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
 
-.logo {
-    font-size: 22px;
-    font-weight: bold;
-    color: var(--accent);
-}
+        .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
 
-.controls {
-    display: flex;
-    gap: 10px;
-}
+        select, button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
 
-select, button {
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    cursor: pointer;
-}
+        select {
+            background: white;
+            color: var(--text);
+            border: 2px solid transparent;
+        }
 
-.btn {
-    background: var(--accent);
-    color: var(--bg-primary);
-    border: none;
-}
+        select:hover {
+            border-color: var(--accent);
+        }
 
-.sidebar {
-    position: fixed;
-    top: 60px;
-    left: 0;
-    width: var(--sidebar-width);
-    height: calc(100vh - 60px);
-    background: var(--bg-secondary);
-    border-right: 2px solid var(--border);
-    padding: 20px;
-}
+        button {
+            background: var(--secondary);
+            color: white;
+            font-weight: 600;
+        }
 
-.nav-item {
-    padding: 10px;
-    border-radius: 6px;
-    cursor: pointer;
-}
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
 
-.nav-item:hover {
-    background: var(--bg-primary);
-}
+        /* Main Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
 
-.main-content {
-    margin-left: var(--sidebar-width);
-    margin-top: 60px;
-    padding: 40px;
-}
+        /* Sidebar */
+        .sidebar {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
 
-.section-title {
-    font-size: 32px;
-    color: var(--accent);
-}
+        .nav-section {
+            margin-bottom: 2rem;
+        }
 
-.code-block {
-    background: var(--code-bg);
-    padding: 15px;
-    border-radius: 8px;
-    margin: 15px 0;
-    border: 1px solid var(--border);
-}
+        .nav-section h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
 
-pre {
-    margin: 0;
-    overflow-x: auto;
-}
-</style>
+        .nav-item {
+            padding: 0.7rem;
+            margin: 0.3rem 0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-item:hover {
+            background: white;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Content Area */
+        .content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            min-height: 500px;
+        }
+
+        .content h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+
+        .content h3 {
+            color: var(--secondary);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .content p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Code Block */
+        .code-block {
+            background: var(--code-bg);
+            color: #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            position: relative;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .code-block pre {
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            background: var(--accent);
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+        }
+
+        /* Interactive Editor */
+        .editor-container {
+            margin: 2rem 0;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .editor-header {
+            background: var(--surface);
+            padding: 0.8rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .editor-header h4 {
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 1rem;
+            border: none;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            resize: vertical;
+            background: var(--code-bg);
+            color: #d4d4d4;
+        }
+
+        .output {
+            background: var(--surface);
+            padding: 1rem;
+            border-top: 2px solid var(--border);
+            min-height: 100px;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            background: var(--surface);
+        }
+
+        .info-box.warning {
+            border-left-color: #f59e0b;
+            background: #fef3c7;
+        }
+
+        .info-box.tip {
+            border-left-color: #10b981;
+            background: #d1fae5;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Syntax Highlighting Colors */
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; font-style: italic; }
+        .function { color: #dcdcaa; }
+        .number { color: #b5cea8; }
+    </style>
 </head>
+<body class="theme-classic">
+    <header>
+        <div class="header-content">
+            <h1 id="site-title">🚀 Code Learning Platform</h1>
+            <div class="controls">
+                <select id="language-select">
+                    <option value="de">🇩🇪 Deutsch</option>
+                    <option value="en">🇬🇧 English</option>
+                    <option value="cn">🇨🇳 中文</option>
+                </select>
+                <select id="theme-select">
+                    <option value="classic">Classic</option>
+                    <option value="modern">Modern</option>
+                    <option value="minecraft">Minecraft</option>
+                </select>
+            </div>
+        </div>
+    </header>
 
-<body data-theme="light" data-design="modern">
+    <div class="container">
+        <aside class="sidebar">
+            <div class="nav-section">
+                <h3 id="nav-languages">Programmiersprachen</h3>
+                <div class="nav-item active" data-content="python">🐍 Python</div>
+                <div class="nav-item" data-content="javascript">📜 JavaScript</div>
+                <div class="nav-item" data-content="java">☕ Java</div>
+            </div>
+            <div class="nav-section">
+                <h3 id="nav-minecraft">Minecraft Education</h3>
+                <div class="nav-item" data-content="minecraft-blocks">🧱 Block Coding</div>
+                <div class="nav-item" data-content="minecraft-python">🐍 Python</div>
+                <div class="nav-item" data-content="minecraft-js">📜 JavaScript</div>
+            </div>
+        </aside>
 
-<header class="header">
-    <div class="logo">🐍 Python Lernen</div>
-    <div class="controls">
-        <select onchange="changeDesign(this.value)">
-            <option value="modern">Modern</option>
-            <option value="minecraft">Minecraft</option>
-            <option value="python">Python</option>
-        </select>
-        <button class="btn" onclick="toggleTheme()">🌙</button>
+        <main class="content" id="main-content">
+            <!-- Content will be loaded here -->
+        </main>
     </div>
-</header>
 
-<aside class="sidebar">
-    <div class="nav-item">🏠 Start</div>
-    <div class="nav-item">📦 Variablen</div>
-    <div class="nav-item">🎮 Minecraft</div>
-</aside>
+    <script>
+        // Translations
+        const translations = {
+            de: {
+                siteTitle: '🚀 Code Learning Platform',
+                navLanguages: 'Programmiersprachen',
+                navMinecraft: 'Minecraft Education',
+                python: {
+                    title: 'Python Grundlagen',
+                    intro: 'Python ist eine benutzerfreundliche, vielseitige Programmiersprache, die sich perfekt für Anfänger eignet.',
+                    variables: 'Variablen',
+                    variablesText: 'Variablen speichern Daten. In Python musst du den Typ nicht angeben.',
+                    functions: 'Funktionen',
+                    functionsText: 'Funktionen sind wiederverwendbare Codeblöcke.',
+                    tryIt: 'Probiere es aus',
+                    runCode: 'Code ausführen',
+                    output: 'Ausgabe:',
+                    tip: 'Tipp: Python verwendet Einrückungen, um Codeblöcke zu definieren!'
+                },
+                javascript: {
+                    title: 'JavaScript Grundlagen',
+                    intro: 'JavaScript ist die Sprache des Webs und läuft in jedem Browser.',
+                    variables: 'Variablen',
+                    variablesText: 'In JavaScript gibt es let, const und var für Variablen.',
+                    functions: 'Funktionen',
+                    functionsText: 'Funktionen können auf verschiedene Arten definiert werden.',
+                    tryIt: 'Probiere es aus',
+                    runCode: 'Code ausführen',
+                    output: 'Ausgabe:',
+                    tip: 'Tipp: Nutze const für Werte, die sich nicht ändern!'
+                },
+                java: {
+                    title: 'Java Grundlagen',
+                    intro: 'Java ist eine objektorientierte Sprache, die überall läuft.',
+                    classes: 'Klassen und Objekte',
+                    classesText: 'In Java ist alles ein Objekt. Klassen sind Baupläne für Objekte.',
+                    methods: 'Methoden',
+                    methodsText: 'Methoden definieren das Verhalten von Objekten.',
+                    tip: 'Tipp: Java-Code muss kompiliert werden, bevor er ausgeführt wird!'
+                },
+                minecraftBlocks: {
+                    title: 'Minecraft: Block Coding',
+                    intro: 'Lerne Programmieren mit visuellen Blöcken in Minecraft!',
+                    basics: 'Block-Grundlagen',
+                    basicsText: 'Blöcke werden per Drag & Drop zusammengesetzt. Jeder Block ist ein Befehl.',
+                    example: 'Beispiel: Einen Block platzieren',
+                    exampleText: '1. Wähle "Agent" Block\n2. Füge "place" hinzu\n3. Wähle Block-Typ\n4. Führe aus!',
+                    tip: 'Tipp: Starte mit einfachen Agent-Befehlen wie move und turn!'
+                },
+                minecraftPython: {
+                    title: 'Minecraft: Python',
+                    intro: 'Steuere Minecraft mit Python-Code!',
+                    setup: 'Erste Schritte',
+                    setupText: 'Nutze den Code Builder in Minecraft Education Edition.',
+                    tip: 'Tipp: Mit Schleifen kannst du große Strukturen bauen!'
+                },
+                minecraftJs: {
+                    title: 'Minecraft: JavaScript',
+                    intro: 'Programmiere Minecraft mit JavaScript!',
+                    setup: 'Erste Schritte',
+                    setupText: 'Wechsle im Code Builder zu JavaScript-Modus.',
+                    tip: 'Tipp: JavaScript in Minecraft ist ähnlich wie Python, nur mit anderer Syntax!'
+                }
+            },
+            en: {
+                siteTitle: '🚀 Code Learning Platform',
+                navLanguages: 'Programming Languages',
+                navMinecraft: 'Minecraft Education',
+                python: {
+                    title: 'Python Basics',
+                    intro: 'Python is a user-friendly, versatile programming language perfect for beginners.',
+                    variables: 'Variables',
+                    variablesText: 'Variables store data. In Python, you don\'t need to specify the type.',
+                    functions: 'Functions',
+                    functionsText: 'Functions are reusable blocks of code.',
+                    tryIt: 'Try it yourself',
+                    runCode: 'Run Code',
+                    output: 'Output:',
+                    tip: 'Tip: Python uses indentation to define code blocks!'
+                },
+                javascript: {
+                    title: 'JavaScript Basics',
+                    intro: 'JavaScript is the language of the web and runs in every browser.',
+                    variables: 'Variables',
+                    variablesText: 'In JavaScript, there are let, const, and var for variables.',
+                    functions: 'Functions',
+                    functionsText: 'Functions can be defined in different ways.',
+                    tryIt: 'Try it yourself',
+                    runCode: 'Run Code',
+                    output: 'Output:',
+                    tip: 'Tip: Use const for values that don\'t change!'
+                },
+                java: {
+                    title: 'Java Basics',
+                    intro: 'Java is an object-oriented language that runs everywhere.',
+                    classes: 'Classes and Objects',
+                    classesText: 'In Java, everything is an object. Classes are blueprints for objects.',
+                    methods: 'Methods',
+                    methodsText: 'Methods define the behavior of objects.',
+                    tip: 'Tip: Java code must be compiled before execution!'
+                },
+                minecraftBlocks: {
+                    title: 'Minecraft: Block Coding',
+                    intro: 'Learn programming with visual blocks in Minecraft!',
+                    basics: 'Block Basics',
+                    basicsText: 'Blocks are assembled by drag & drop. Each block is a command.',
+                    example: 'Example: Place a block',
+                    exampleText: '1. Select "Agent" block\n2. Add "place"\n3. Choose block type\n4. Run!',
+                    tip: 'Tip: Start with simple agent commands like move and turn!'
+                },
+                minecraftPython: {
+                    title: 'Minecraft: Python',
+                    intro: 'Control Minecraft with Python code!',
+                    setup: 'Getting Started',
+                    setupText: 'Use the Code Builder in Minecraft Education Edition.',
+                    tip: 'Tip: Use loops to build large structures!'
+                },
+                minecraftJs: {
+                    title: 'Minecraft: JavaScript',
+                    intro: 'Program Minecraft with JavaScript!',
+                    setup: 'Getting Started',
+                    setupText: 'Switch to JavaScript mode in Code Builder.',
+                    tip: 'Tip: JavaScript in Minecraft is similar to Python, just with different syntax!'
+                }
+            },
+            cn: {
+                siteTitle: '🚀 代码学习平台',
+                navLanguages: '编程语言',
+                navMinecraft: 'Minecraft 教育版',
+                python: {
+                    title: 'Python 基础',
+                    intro: 'Python 是一种用户友好、多功能的编程语言，非常适合初学者。',
+                    variables: '变量',
+                    variablesText: '变量存储数据。在 Python 中，你不需要指定类型。',
+                    functions: '函数',
+                    functionsText: '函数是可重用的代码块。',
+                    tryIt: '试试看',
+                    runCode: '运行代码',
+                    output: '输出：',
+                    tip: '提示：Python 使用缩进来定义代码块！'
+                },
+                javascript: {
+                    title: 'JavaScript 基础',
+                    intro: 'JavaScript 是网络的语言，在每个浏览器中运行。',
+                    variables: '变量',
+                    variablesText: '在 JavaScript 中，有 let、const 和 var 用于变量。',
+                    functions: '函数',
+                    functionsText: '函数可以用不同的方式定义。',
+                    tryIt: '试试看',
+                    runCode: '运行代码',
+                    output: '输出：',
+                    tip: '提示：对于不会改变的值使用 const！'
+                },
+                java: {
+                    title: 'Java 基础',
+                    intro: 'Java 是一种面向对象的语言，可以在任何地方运行。',
+                    classes: '类和对象',
+                    classesText: '在 Java 中，一切都是对象。类是对象的蓝图。',
+                    methods: '方法',
+                    methodsText: '方法定义对象的行为。',
+                    tip: '提示：Java 代码必须在执行前编译！'
+                },
+                minecraftBlocks: {
+                    title: 'Minecraft：块编码',
+                    intro: '在 Minecraft 中使用可视化块学习编程！',
+                    basics: '块基础',
+                    basicsText: '通过拖放组装块。每个块都是一个命令。',
+                    example: '示例：放置一个方块',
+                    exampleText: '1. 选择"代理"块\n2. 添加"放置"\n3. 选择方块类型\n4. 运行！',
+                    tip: '提示：从简单的代理命令开始，如移动和转向！'
+                },
+                minecraftPython: {
+                    title: 'Minecraft：Python',
+                    intro: '用 Python 代码控制 Minecraft！',
+                    setup: '入门',
+                    setupText: '在 Minecraft 教育版中使用代码生成器。',
+                    tip: '提示：使用循环可以建造大型结构！'
+                },
+                minecraftJs: {
+                    title: 'Minecraft：JavaScript',
+                    intro: '用 JavaScript 编程 Minecraft！',
+                    setup: '入门',
+                    setupText: '在代码生成器中切换到 JavaScript 模式。',
+                    tip: '提示：Minecraft 中的 JavaScript 与 Python 类似，只是语法不同！'
+                }
+            }
+        };
 
-<main class="main-content">
-    <h1 class="section-title">Willkommen bei Python</h1>
+        // Content templates
+        const contentTemplates = {
+            python: (t) => `
+                <h2>${t.title}</h2>
+                <p>${t.intro}</p>
+                
+                <h3>${t.variables}</h3>
+                <p>${t.variablesText}</p>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="comment"># Variablen in Python</span>
+<span class="keyword">name</span> = <span class="string">"Max"</span>
+<span class="keyword">alter</span> = <span class="number">15</span>
+<span class="keyword">ist_schueler</span> = <span class="keyword">True</span>
 
-    <p>Python lernen – modern, verständlich und spielerisch.</p>
+<span class="function">print</span>(<span class="string">f"Hallo, ich bin </span>{name}<span class="string"> und </span>{alter}<span class="string"> Jahre alt"</span>)</pre>
+                </div>
 
-    <div class="code-block">
-        <pre><code># Variable definieren
-name = "Anna"
-alter = 25
+                <h3>${t.functions}</h3>
+                <p>${t.functionsText}</p>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="keyword">def</span> <span class="function">begruessung</span>(name):
+    <span class="keyword">return</span> <span class="string">f"Hallo, </span>{name}<span class="string">!"</span>
 
-print(name)
-print(alter)</code></pre>
-    </div>
-</main>
+<span class="comment"># Funktion aufrufen</span>
+nachricht = <span class="function">begruessung</span>(<span class="string">"Anna"</span>)
+<span class="function">print</span>(nachricht)</pre>
+                </div>
 
-<script>
-function changeDesign(design) {
-    document.body.setAttribute("data-design", design);
+                <div class="info-box tip">
+                    <strong>💡 ${t.tip}</strong>
+                </div>
+
+                <h3>${t.tryIt}</h3>
+                <div class="editor-container">
+                    <div class="editor-header">
+                        <h4>Interactive Python Editor</h4>
+                        <button onclick="runPythonCode()">${t.runCode}</button>
+                    </div>
+                    <textarea id="python-editor"># Schreibe deinen Python Code hier
+print("Hallo Welt!")
+
+for i in range(5):
+    print(f"Zahl: {i}")</textarea>
+                    <div class="output" id="python-output">${t.output}</div>
+                </div>
+            `,
+            javascript: (t) => `
+                <h2>${t.title}</h2>
+                <p>${t.intro}</p>
+                
+                <h3>${t.variables}</h3>
+                <p>${t.variablesText}</p>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="comment">// Variablen in JavaScript</span>
+<span class="keyword">let</span> name = <span class="string">"Max"</span>;
+<span class="keyword">const</span> alter = <span class="number">15</span>;
+<span class="keyword">var</span> istSchueler = <span class="keyword">true</span>;
+
+<span class="function">console.log</span>(<span class="string">\`Hallo, ich bin \${name} und \${alter} Jahre alt\`</span>);</pre>
+                </div>
+
+                <h3>${t.functions}</h3>
+                <p>${t.functionsText}</p>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="comment">// Normale Funktion</span>
+<span class="keyword">function</span> <span class="function">begruessung</span>(name) {
+    <span class="keyword">return</span> <span class="string">\`Hallo, \${name}!\`</span>;
 }
 
-function toggleTheme() {
-    const current = document.body.getAttribute("data-theme");
-    document.body.setAttribute("data-theme", current === "dark" ? "light" : "dark");
-}
-</script>
+<span class="comment">// Arrow Function</span>
+<span class="keyword">const</span> <span class="function">addieren</span> = (a, b) => a + b;
 
-</body>
-</html>
+<span class="function">console.log</span>(<span class="function">begruessung</span>(<span class="string">"Anna"</span>));
+<span class="function">console.log</span>(<span class="function">addieren</span>(<span class="number">5</span>, <span class="number">3</span>));</pre>
+                </div>
+
+                <div class="info-box tip">
+                    <strong>💡 ${t.tip}</strong>
+                </div>
+
+                <h3>${t.tryIt}</h3>
+                <div class="editor-container">
+                    <div class="editor-header">
+                        <h4>Interactive JavaScript Editor</h4>
+                        <button onclick="runJSCode()">${t.runCode}</button>
+                    </div>
+                    <textarea id="js-editor">// Schreibe deinen JavaScript Code hier
+console.log("Hallo Welt!");
+
+for (let i = 0; i < 5; i++) {
+    console.log(\`Zahl: \${i}\`);
+}</textarea>
+                    <div class="output" id="js-output">${t.output}</div>
+                </div>
+            `,
+            java: (t) => `
+                <h2>${t.title}</h2>
+                <p>${t.intro}</p>
+                
+                <h3>${t.classes}</h3>
+                <p>${t.classesText}</p>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="comment">// Eine einfache Java-Klasse</span>
+<span class="keyword">public class</span> Person {
+    <span class="keyword">private String</span> name;
+    <span class="keyword">private int</span> alter;
+    
+    <span class="comment">// Konstruktor</span>
+    <span class="keyword">public</span> <span class="function">Person</span>(String name, <span class="keyword">int</span> alter) {
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">this</span>.alter = alter;
+    }
+    
+    <span class="comment">// Getter-Methode</span>
+    <span class="keyword">public String</span> <span class="function">getName</span>() {
+        <span class="keyword">return</span> name;
+    }
+}</pre>
+                </div>
+
+                <h3>${t.methods}</h3>
+                <p>${t.methodsText}</p>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="keyword">public class</span> Main {
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+        <span class="comment">// Objekt erstellen</span>
+        Person person = <span class="keyword">new</span> <span class="function">Person</span>(<span class="string">"Max"</span>, <span class="number">15</span>);
+        
+        <span class="comment">// Methode aufrufen</span>
+        System.out.<span class="function">println</span>(<span class="string">"Name: "</span> + person.<span class="function">getName</span>());
+    }
+}</pre>
+                </div>
+
+                <div class="info-box tip">
+                    <strong>💡 ${t.tip}</strong>
+                </div>
+            `,
+            'minecraft-blocks': (t) => `
+                <h2>${t.title}</h2>
+                <p>${t.intro}
